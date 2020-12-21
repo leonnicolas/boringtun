@@ -1,6 +1,6 @@
 # boringtun
 
-![Mutli Arch Build](https://github.com/leonnicolas/boringtun/workflows/Mutli%20Arch%20Build/badge.svg)
+![Multi Arch Build](https://github.com/leonnicolas/boringtun/workflows/Multi%20Arch%20Build/badge.svg)
 
 Multi-Arch docker image for [boringtun](https://github.com/cloudflare/boringtun)
 
