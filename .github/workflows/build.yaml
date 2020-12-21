@@ -4,7 +4,7 @@ on:
       - main
   schedule:
     - cron: "0 0 * * *" 
-name: Mutli Arch Build
+name: Multi Arch Build
 
 jobs:
   build:
