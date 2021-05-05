@@ -17,8 +17,10 @@ A github action runs every night and pushes a new manifest if the main branch of
 
 ## Available Tags
 
-For every day with a new commit, a manifest with a new tag is created.
+For every day with a new commit to Cloudflare's boringtun, a manifest with a new tag is created.
+
 Manifests annotated with only a sha sum are based on `Debian:stable-slim`.
+
 Manifests with the tag `alpine-<sha>` or alpine are based on `alpine`.
 
 ### latest
