@@ -1,15 +1,11 @@
 on: 
-  push:
-    braches:
-      - dev
-      - main
   schedule:
     - cron: "0 0 * * *" 
 name: Multi Arch Build for Alpine
 
 jobs:
   build:
-    name: Build Binaries
+    name: Build Binaries with musl
     runs-on: ubuntu-18.04 
     strategy:
       matrix:

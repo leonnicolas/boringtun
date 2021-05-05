@@ -10,3 +10,23 @@ Multi-Arch docker image for [boringtun](https://github.com/cloudflare/boringtun)
 ```bash
 docker run -it --rm --cap-add=NET_ADMIN --device=/dev/net/tun -v /var/run/wireguard:/var/run/wireguard -p 51820:51820 -e WG_LOG_LEVEL=debug  leonnicolas/boringtun --foreground --disable-drop-privileges true wg0
 ```
+
+## Build
+
+A github action runs every night and pushes a new manifest if the main branch of Cloudflare's [boringtun](https://github.com/cloudflare/boringtun) was  updated.
+
+## Available Tags
+
+For every day with a new commit, a manifest with a new tag is created.
+Manifests annotated with only a sha sum are based on `Debian:stable-slim`.
+Manifests with the tag `alpine-<sha>` or alpine are based on `alpine`.
+
+### latest
+
+Based on Debian:stable-slim
+
+### alpine 
+
+Based on Alpine.
+
+__Note__: During compiling, the unsupported crate `dylib` is dropped.

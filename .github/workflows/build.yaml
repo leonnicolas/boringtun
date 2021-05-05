@@ -1,14 +1,11 @@
 on: 
-  push:
-    braches:
-      - main
   schedule:
     - cron: "0 0 * * *" 
 name: Multi Arch Build
 
 jobs:
   build:
-    name: Linux arm 64
+    name: Build Binaries
     runs-on: ubuntu-18.04 
     strategy:
       matrix:
