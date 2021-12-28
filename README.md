@@ -1,7 +1,8 @@
 # boringtun
 
-[![Multi Arch Build](https://github.com/leonnicolas/boringtun/workflows/Multi%20Arch%20Build/badge.svg)](https://github.com/leonnicolas/boringtun/actions/workflows/build.yaml)
-[![Docker Pulls](https://img.shields.io/docker/pulls/leonnicolas/boringtun?color=blue)](https://hub.docker.com/repository/docker/leonnicolas/boringtun)
+[![Multi Arch Build](https://github.com/leonnicolas/boringtun/actions/workflows/build.yaml/badge.svg)](https://github.com/leonnicolas/boringtun/actions/workflows/build.yaml)
+[![Multi Arch Build for Alpine](https://github.com/leonnicolas/boringtun/actions/workflows/build_alpine.yaml/badge.svg)](https://github.com/leonnicolas/boringtun/actions/workflows/build_alpine.yaml)
+[![Docker Pulls](https://img.shields.io/docker/pulls/leonnicolas/boringtun?color=blue)](https://hub.docker.com/r/leonnicolas/boringtun)
 
 Multi-Arch docker image for [boringtun](https://github.com/cloudflare/boringtun)
 
@@ -32,3 +33,7 @@ Based on Debian:stable-slim
 Based on Alpine.
 
 __Note__: During compiling, the unsupported crate `dylib` is dropped.
+
+## Container Registry
+
+Images can be found on [Docker Hub](https://hub.docker.com/r/leonnicolas/boringtun) `leonnicolas/boringtun` and [GitHub Container Registry](https://ghcr.io) `ghcr.io/leonnicolas/boringtun`.
