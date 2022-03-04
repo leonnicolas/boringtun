@@ -2,9 +2,9 @@ FROM alpine:3.13
 
 WORKDIR /app
 ARG TARGETPLATFORM
-COPY ./${TARGETPLATFORM}/boringtun /boringtun
-RUN chmod +x /boringtun
+COPY ./${TARGETPLATFORM}/boringtun-cli /boringtun-cli
+RUN chmod +x /boringtun-cli
 ENV WG_LOG_LEVEL=info \
     WG_THREADS=4
 
-ENTRYPOINT ["/boringtun"]
+ENTRYPOINT ["/boringtun-cli"]
