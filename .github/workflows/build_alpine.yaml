@@ -1,6 +1,7 @@
+---
 on:
   schedule:
-    - cron: "0 0 * * *"
+    - cron: 0 0 * * *
   workflow_dispatch:
 
 name: Multi Arch Build for Alpine
@@ -19,7 +20,7 @@ jobs:
       - name: Checkout boringtun
         uses: actions/checkout@v2
         with:
-          repository: 'cloudflare/boringtun'
+          repository: cloudflare/boringtun
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
@@ -72,10 +73,12 @@ jobs:
       - uses: docker/build-push-action@v2
         with:
           context: .
-          file: ./Dockerfile-alpine
           platforms: linux/arm64, linux/arm, linux/amd64
+          file: ./Dockerfile
           push: true
-          tags: |
+          build-args: |
+            FROM=alpine:3.13
+          tags: |-
             leonnicolas/boringtun:alpine
             leonnicolas/boringtun:alpine-${{ needs.build.outputs.sha }}
             ghcr.io/leonnicolas/boringtun:alpine

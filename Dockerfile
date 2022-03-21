@@ -1,4 +1,6 @@
-FROM debian:stable-slim
+ARG FROM=debian:stable-slim
+
+FROM $FROM
 
 WORKDIR /app
 ARG TARGETPLATFORM
