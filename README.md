@@ -30,9 +30,7 @@ Based on Debian:stable-slim
 
 ### alpine 
 
-Based on Alpine.
-
-__Note__: During compiling, the unsupported crate `dylib` is dropped.
+Based on Alpine
 
 ## Container Registry
 
