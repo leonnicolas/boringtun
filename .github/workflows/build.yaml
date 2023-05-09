@@ -9,7 +9,7 @@ name: Multi Arch Build
 jobs:
   build:
     name: Build Binaries
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22-04
     strategy:
       matrix:
         target:
@@ -42,7 +42,7 @@ jobs:
   push:
     name: docker build and push images
     needs: build
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22-04
     steps:
       - name: Checkout
         uses: actions/checkout@v2
