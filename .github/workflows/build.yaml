@@ -12,29 +12,33 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        target:
-          - aarch64-unknown-linux-gnu
-          - armv7-unknown-linux-gnueabihf
-          - x86_64-unknown-linux-gnu
+        platform:
+         - target: aarch64-unknown-linux-gnu
+           package: gcc-aarch64-linux-gnu
+         - target: armv7-unknown-linux-gnueabihf
+           package: gcc-arm-linux-gnueabihf
+         - target: x86_64-unknown-linux-gnu
+           package: ${{ null }}
     steps:
       - name: Checkout boringtun
         uses: actions/checkout@v2
         with:
           repository: cloudflare/boringtun
-      - uses: actions-rs/toolchain@v1
+      - name: install gcc
+        if: ${{ matrix.platform.package != null }}
+        run: sudo apt-get -y install ${{ matrix.platform.package }}
+      - name: set up rust-toolchain
+        uses: dtolnay/rust-toolchain@stable
         with:
-          toolchain: stable
-          target: ${{ matrix.target }}
-          override: true
-      - uses: actions-rs/cargo@v1
-        with:
-          use-cross: true
-          command: build
-          args: --release --target=${{ matrix.target }}
+          targets: ${{ matrix.platform.target }}
+      - name: Build binary
+        run: rustc --print target-list
+      - name: Build binary
+        run: cargo build --bin boringtun-cli --release --target ${{ matrix.platform.target }}
       - uses: actions/upload-artifact@v2
         with:
-          name: ${{ matrix.target }}
-          path: target/${{ matrix.target }}/release/boringtun-cli
+          name: ${{ matrix.platform.target }}
+          path: target/${{ matrix.platform.target }}/release/boringtun-cli
       - id: sha
         run: echo "::set-output name=sha::$(git describe --always --tags --dirty)"
     outputs:
@@ -75,7 +79,7 @@ jobs:
           context: .
           file: ./Dockerfile
           platforms: linux/arm64, linux/arm, linux/amd64
-          push: true
+          push: ${{github.ref_name == 'main'}}
           build-args: |
             FROM=debian:stable-slim
           tags: |-
