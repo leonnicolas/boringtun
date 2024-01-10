@@ -21,14 +21,16 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: cloudflare/boringtun
-      - name: set up rust-toolchain
-        uses: dtolnay/rust-toolchain@stable
+      - uses: actions-rs/toolchain@v1
         with:
-          targets: ${{ matrix.target }}
-      - name: Build binary
-        run: rustc --print target-list
-      - name: Build binary
-        run: cargo build --bin boringtun-cli --release --target ${{ matrix.target }}
+          toolchain: stable
+          target: ${{ matrix.target }}
+          override: true
+      - uses: actions-rs/cargo@v1
+        with:
+          use-cross: true
+          command: build
+          args: --release --target=${{ matrix.target }}
       - uses: actions/upload-artifact@v2
         with:
           name: ${{ matrix.target }}

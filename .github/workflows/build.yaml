@@ -15,8 +15,8 @@ jobs:
         platform:
          - target: aarch64-unknown-linux-gnu
            package: gcc-aarch64-linux-gnu
-         - target: armv7-unknown-linux-gnueabihf
-           package: gcc-arm-linux-gnueabihf
+         - target: armv7-unknown-linux-gnueabi
+           package: gcc-arm-linux-gnueabi
          - target: x86_64-unknown-linux-gnu
            package: ${{ null }}
     steps:
@@ -24,7 +24,13 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: cloudflare/boringtun
-      - name: install gcc
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          path: docker-build
+      - name: append carg/config.toml
+        run: cat docker-build/cargo.toml >> .cargo/config.toml
+      - name: Install extra packages
         if: ${{ matrix.platform.package != null }}
         run: sudo apt-get -y install ${{ matrix.platform.package }}
       - name: set up rust-toolchain
@@ -56,7 +62,7 @@ jobs:
           path: linux/arm64/
       - uses: actions/download-artifact@v2
         with:
-          name: armv7-unknown-linux-gnueabihf
+          name: armv7-unknown-linux-gnueabi
           path: linux/arm/v7/
       - uses: actions/download-artifact@v2
         with:
