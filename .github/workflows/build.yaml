@@ -31,7 +31,7 @@ jobs:
           name: ${{ matrix.target }}
           path: target/${{ matrix.target }}/release/boringtun-cli
       - id: sha
-        run: echo "::set-output name=sha::$(git describe --always --tags --dirty)"
+        run:  echo "sha=$(git describe --always --tags --dirty)" >> $GITHUB_OUTPUT
     outputs:
       sha: ${{ steps.sha.outputs.sha }}
   push:
