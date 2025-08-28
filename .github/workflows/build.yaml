@@ -3,6 +3,11 @@ on:
   schedule:
     - cron: 0 0 * * *
   workflow_dispatch:
+    inputs:
+      commit:
+        description: 'Commit of upstream boringtun to build'
+        type: string
+        default: ''
 
 name: Multi Arch Build
 
@@ -24,6 +29,10 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: cloudflare/boringtun
+          ref: ${{ github.event.inputs.commit }}
+      - name: Set image tag suffix
+        id: tag
+        run: echo "tag=$(git describe --always | sed 's/boringtun-//g')" >> "$GITHUB_OUTPUT"
       - uses: dtolnay/rust-toolchain@stable
       - name: install cross
         run: cargo install cross --git https://github.com/cross-rs/cross
@@ -33,10 +42,8 @@ jobs:
         with:
           name: ${{ matrix.target }}
           path: target/${{ matrix.target }}/release/boringtun-cli
-      - id: sha
-        run:  echo "sha=$(git describe --always --tags --dirty)" >> "$GITHUB_OUTPUT"
     outputs:
-      sha: ${{ steps.sha.outputs.sha }}
+      tag: ${{ steps.tag.outputs.tag }}
   push:
     name: docker build and push images
     needs: build
@@ -78,9 +85,9 @@ jobs:
             FROM=debian:stable-slim
           tags: |-
             leonnicolas/boringtun:latest
-            leonnicolas/boringtun:${{ needs.build.outputs.sha }}
+            leonnicolas/boringtun:${{ needs.build.outputs.tag }}
             ghcr.io/leonnicolas/boringtun:latest
-            ghcr.io/leonnicolas/boringtun:${{ needs.build.outputs.sha }}
+            ghcr.io/leonnicolas/boringtun:${{ needs.build.outputs.tag }}
   push_alpine:
     name: docker build and push alpine images
     needs: build
@@ -122,6 +129,6 @@ jobs:
             FROM=alpine:3.22
           tags: |-
             leonnicolas/boringtun:alpine
-            leonnicolas/boringtun:alpine-${{ needs.build.outputs.sha }}
+            leonnicolas/boringtun:alpine-${{ needs.build.outputs.tag }}
             ghcr.io/leonnicolas/boringtun:alpine
-            ghcr.io/leonnicolas/boringtun:alpine-${{ needs.build.outputs.sha }}
+            ghcr.io/leonnicolas/boringtun:alpine-${{ needs.build.outputs.tag }}
