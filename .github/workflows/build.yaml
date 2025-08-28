@@ -29,6 +29,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: cloudflare/boringtun
+          fetch-tags: true
+          fetch-depth: 0
           ref: ${{ github.event.inputs.commit }}
       - name: Set image tag suffix
         id: tag
